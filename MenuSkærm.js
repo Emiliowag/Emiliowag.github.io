@@ -25,7 +25,8 @@ class MenuSkærm{
         manager.skiftGameState("spil");
       }
       else if (this.knapTid.overCircle()){
-        this.minutter++;
+        this.minutter--;
+        
       }
     }
   }

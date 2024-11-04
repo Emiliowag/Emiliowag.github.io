@@ -9,18 +9,26 @@ class SpilSkærm {
       this.tid2 = 0;
       this.spiller1True = true;
       this.savedTime = millis();
+      this.activeGame = true;
+      this.vinder = "";
     }
   
     run() {
-      let passedTime = millis() - this.savedTime;
-      if (passedTime >= 1000) {
-        if (this.spiller1True === true)
-          this.tid1 -= 1;
-        else
-          this.tid2 -= 1;
-        this.savedTime = millis();
+      if (this.activeGame == true) {
+        console.log(this.activeGame)
+        let passedTime = millis() - this.savedTime;
+        if (passedTime >= 1000) {
+          if (this.spiller1True === true)
+            this.tid1 -= 1;
+          else
+            this.tid2 -= 1;
+          this.savedTime = millis();
+          }
       }
-      
+      console.log(this.tid1)
+      if (this.tid1 == 0 || this.tid2 == 0) { 
+        if (this.tid1 == 0) {this.gameOver(2)} else {this.gameOver(1)}
+      }
       this.tegnSkak();
       this.knapSpil.draw();
       stroke(0); strokeWeight(3);
@@ -29,6 +37,9 @@ class SpilSkærm {
       noStroke();
       text("HVID: " + this.tid1, width/2, height/2.5);
       text("SORT: " + this.tid2, width/2, height/1.6);
+      if (this.activeGame == false) {
+        text(`Spiller ${this.vinder} vinder`,width/2,height/2)
+      }
     }
     
     tegnSkak() {
@@ -44,7 +55,7 @@ class SpilSkærm {
         }
       }
     }  sætTid(minutter){
-      this.tid1 = minutter * 60;
+      this.tid1 = minutter * 1;
       this.tid2 = this.tid1;
     
     }
@@ -56,5 +67,9 @@ class SpilSkærm {
       if (this.knapRyk.overCircle()) {
         this.spiller1True = !this.spiller1True;
       }
+    }
+    gameOver(player) {
+      this.vinder = player
+      this.activeGame = false;
     }
   }
